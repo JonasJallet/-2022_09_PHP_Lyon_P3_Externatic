@@ -1,0 +1,60 @@
+.candidacyTable {
+    color: black;
+    width: 80%;
+    margin: auto;
+    font-weight: bold;
+    font: 700 18px Jost;
+
+    thead {
+        vertical-align: middle;
+        font-style: italic;
+        color: $light;
+        background-color: $mainPink;
+    }
+
+    td,
+    th {
+        border: 1px solid black;
+        padding: 15px;
+    }
+
+    a {
+        color: black;
+        text-decoration-thickness: 1px;
+
+        &:hover {
+            color: black;
+            cursor: pointer;
+        }
+    }
+}
+
+.deleteSearch {
+    color: black;
+    text-decoration-thickness: 1px;
+
+    &:hover {
+        color: black;
+        cursor: pointer;
+    }
+
+}
+
+#selectStatus,
+#selectStatusMobile {
+    font: 600 18px Jost;
+    border: none;
+    background-color: transparent !important;
+
+    * {
+        background-color: white;
+
+        &:focus {
+            background-color: $mainPink;
+        }
+    }
+}
+
+#selectStatusMobile {
+    font: 600 20px Jost;
+}

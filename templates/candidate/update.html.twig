@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes informations
+{% endblock %}
+
+{% block body %}
+	<main class="mainSection mb-5">
+		<div class="mainForm">
+			{% if is_granted("ROLE_ADMIN")%}
+				<h1 class="text-center">Informations du candidat</h1>
+			{% else %}
+				<h1 class="text-center">Mes informations</h1>
+			{% endif %}
+			{{ form_start(form, {'attr': {'class': 'd-flex flex-column'}})}}
+			{% if candidate.picture %}
+				{{ form_label(form.pictureFile)}}
+				<div id="storedPicture" style="display: block;">
+					<table class="text-center">
+						<tr>
+							<td colspan="3">
+								<img class="candidate-picture rounded-circle" src="{{ asset('uploads/candidate/picture/' ~ candidate.picture) }}" alt="{{ candidate.firstname }} {{ candidate.lastname }}">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a title="Supprimer" class="m-0" onclick="window.location.href='{{ path('app_candidate_picture_delete', {'candidateId': candidate.id }) }}';">Supprimer</a>
+							</td>
+							<td>|</td>
+							<td>
+								<a title="Remplacer" class="replace-picture-link m-0" onclick="javascript:void(0)">Remplacer</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="pictureUploader" style="display:none;">
+					<div>
+						<a title="Annuler" class="keep-picture-link m-0" onclick="javascript:void(0)">Conserver ma photo actuelle</a>
+					</div>
+					{{ form_widget(form.pictureFile, {'attr': {'class': 'mb-3'}})}}
+				</div>
+			{% else %}
+				{{ form_label(form.pictureFile)}}
+				{{ form_widget(form.pictureFile, {'attr': {'class': 'mb-3'}})}}
+			{% endif %}
+			{{ form_row(form.gender)}}
+			{{ form_row(form.firstname)}}
+			{{ form_row(form.lastname)}}
+			{{ form_row(form.birthday)}}
+			{{ form_row(form.phone)}}
+			{{ form_row(form.address)}}
+			{{ form_row(form.addressComplement)}}
+			{{ form_row(form.postalCode)}}
+			{{ form_row(form.city)}}
+			{{ form_row(form.contractSearched, {'attr': {'class': 'd-flex flex-row flex-wrap justify-content-evenly'}})}}
+			{% if noContractSearched is defined %}
+				<div class="invalid-feedback d-block">{{ noContractSearched }}</div>
+			{% endif %}
+			{{ form_row(form.stacks, {'attr': {'class': 'd-flex flex-row flex-wrap justify-content-evenly'}})}}
+			{% if noStacks is defined %}
+				<div class="invalid-feedback d-block">{{ noStacks }}</div>
+			{% endif %}
+
+			{% if candidate.curriculumVitae %}
+				{{ form_label(form.cvFile) }}
+				<div id="storedCv" class="container-fluid" style="display: block;">
+					<div class="row align-items-center">
+						<div class="col-10">
+							<a class="m-0" target="_blank" title="mon cv" href="{{ asset('uploads/candidate/curriculumVitae/' ~ candidate.curriculumVitae) }}">{{ candidate.curriculumVitae }}</a>
+						</div>
+						<div class="col-2 d-flex">
+							<div class="pe-1">
+								<a title="Remplacer" class="replace-file-link" href="javascript:void(0);">
+									<img src="{{ asset('build/images/edit.png') }}" class="cvUploaderPicto" alt="Remplacer">
+								</a>
+							</div>
+							<div class="ps-1">
+								<a title="Supprimer" href="{{ path('app_candidate_cv_delete', {'candidateId': candidate.id }) }}">
+									<img src="{{ asset('build/images/delete.png') }}" class="cvUploaderPicto" alt="Supprimer">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<label for="candidate_cvFile_file" class="drop-container" style="display: none;" id="cvUploader">
+					<img src="{{ asset('build/images/upload.png') }}" id='uploadLogo'>
+					<div class="text-black">Téléverser votre CV</div>
+					{{ form_widget(form.cvFile) }}
+					<div>
+						<a title="annuler" class="keep-file-link mainSection" href="javascript:void(0)">Conserver mon CV actuel</a>
+					</div>
+				</label>
+
+			{% else %}
+
+				{{ form_label(form.cvFile) }}
+
+				<label for="candidate_cvFile_file" class="drop-container">
+					<img src="{{ asset('build/images/upload.png') }}" id='uploadLogo' class="mt-3">
+					<div class="text-black">Téléverser votre CV</div>
+					{{ form_widget(form.cvFile) }}
+				</label>
+
+			{% endif %}
+
+
+			<button>
+				{{ button_label | default('Mettre à jour') }}
+			</button>
+
+			{{ form_end(form) }}
+
+		</div>
+
+	</main>
+{% endblock %}
+
+{% block clearSession %}{% endblock %}

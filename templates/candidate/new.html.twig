@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes informations
+{% endblock %}
+
+{% block body %}
+	<main class="mainSection mb-5">
+		<div class="mainForm">
+
+			{% if is_granted("ROLE_ADMIN")%}
+				<h1 class="text-center">Informations du candidat</h1>
+			{% else %}
+				<h1 class="text-center">Mes informations</h1>
+			{% endif %}
+			{{ include('candidate/_form.html.twig') }}
+		</div>
+	</main>
+
+{% endblock %}
+
+{% block clearSession %}{% endblock %}
